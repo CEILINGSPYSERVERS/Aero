@@ -7,16 +7,18 @@ os.system("cls" if os.name == "nt" else "clear")
 # Wing dimensions
 
 ChordRoot = 0.8  # m
-ChordTip = 0.2  # m
+ChordTip = 0.16  # m
 TaperRatio = ChordTip / ChordRoot
 Wingspan = 2.5  # m
-WingArea = 1  # m^2
-WetWingArea = 1 # m^2, area of wing exposed to stream lines
+WingArea = 1.04156  # m^2
+WetWingArea = .86716 # m^2, area of wing exposed to stream lines
 Sweep = math.radians(0) # degrees, converted to radians, only non 0 when transsonic +
 AverageChord = WingArea / Wingspan
 AR = (Wingspan ^ 2) / WingArea
+print(AR)
 XC = 0.25  # Location of center of mass in % of chord
-TC = 0.14  # Maximum thickness in % of chord
+TCRoot = .2 # Root thickness in % chord
+TCTip = 0.14  # Tip thickness in % of chord
 QWing = 1.25
 
 # Fuselage dimensions
@@ -31,7 +33,6 @@ F = FuselageLength / ((4 / math.pi) * AFuse)**(1/2)
 
 Gamma = 1.4  # Ratio of specific heats for dry air
 R = 287  # J/kgK specific gas constant for dry air
-LambdaM = 60  # degrees
 E = 0.7
 Oswald = 1.78 * (1 - .045 * (AR)**.68) - .64
 A0 = 0.104
