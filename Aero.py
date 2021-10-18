@@ -59,8 +59,8 @@ ReWing = (Density * Velocity * AverageChord) / DynamicViscosity
 ReFuse = (Density * Velocity * FuselageLength) / DynamicViscosity
 
 # Weight
-SurfaceArea = 2.809 # m^2
-Mass = (((SurfaceArea * .001) * 1930) + .3 + .0158 + .5) # kg
+SurfaceArea = 2.809  # m^2
+Mass = ((SurfaceArea * 0.001) * 1930) + 0.3 + 0.0158 + 0.5  # kg
 Weight = Mass * 9.81
 
 # Lift
@@ -158,18 +158,22 @@ Optimal Value = (3/4) * (1 / (3 * k * CD0^3))^(1/4)
 
 """
 
-CL32CDMax = (3**(3/4)) / (4 * (CD0**(1/4) * K**(3/4)))
+CL32CDMax = (3 ** (3 / 4)) / (4 * (CD0 ** (1 / 4) * K ** (3 / 4)))
 CLCDMax = math.sqrt(1 / (4 * K * CD0))
-
+print(CLCDMax)
+print(K)
 # Plane thrust vars
 BCurrent = 7  # Ah
 BVoltage = 12  # V
 BEnergy = BCurrent * BVoltage  # Wh
-EtaProp = .90
-EtaMotor = .90
+EtaProp = 0.90
+EtaMotor = 0.90
 
-MaxRange = ((BEnergy * EtaProp * EtaMotor) / Weight) * CLCDMax  # m
-MaxEndurane = ((BEnergy * EtaProp * EtaMotor * math.sqrt(Density * WingArea)) / (math.sqrt(2) * Weight**(3/2))) * CL32CDMax  # hr
+MaxRange = ((3600 * BEnergy * EtaProp * EtaMotor) / Weight) * CLCDMax  # m
+MaxEndurane = (
+    (3600 * BEnergy * EtaProp * EtaMotor * math.sqrt(Density * WingArea))
+    / (math.sqrt(2) * Weight ** (3 / 2))
+) * CL32CDMax  # hr
 
 print(f"Max Range {MaxRange} meters")  # THIS IS WRONG
 print(f"Max Endurance {MaxEndurane} hours")  # THIS IS WRONG
