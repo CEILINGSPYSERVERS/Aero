@@ -158,5 +158,18 @@ Optimal Value = (3/4) * (1 / (3 * k * CD0^3))^(1/4)
 
 """
 
-CL32CDMax = (3**(3/4)) / (4 * (CD0**(1/4) * k**(3/4)))
-CLCDMax = math.sqrt(1 / (4 * k * CD0))
+CL32CDMax = (3**(3/4)) / (4 * (CD0**(1/4) * K**(3/4)))
+CLCDMax = math.sqrt(1 / (4 * K * CD0))
+
+# Plane thrust vars
+BCurrent = 7  # Ah
+BVoltage = 12  # V
+BEnergy = BCurrent * BVoltage  # Wh
+EtaProp = .90
+EtaMotor = .90
+
+MaxRange = ((BEnergy * EtaProp * EtaMotor) / Weight) * CLCDMax  # m
+MaxEndurane = ((BEnergy * EtaProp * EtaMotor * math.sqrt(Density * WingArea)) / (math.sqrt(2) * Weight**(3/2))) * CL32CDMax  # hr
+
+print(f"Max Range {MaxRange} meters")  # THIS IS WRONG
+print(f"Max Endurance {MaxEndurane} hours")  # THIS IS WRONG
