@@ -14,6 +14,8 @@ WingArea = 1.08236  # m^2
 SWetWing = 0.82636  # m^2, area of wing exposed to stream lines
 Sweep = math.radians(0)  # degrees, converted to radians, only non 0 when transsonic +
 AverageChord = WingArea / Wingspan
+ARD = (4/math.tan(math.radians(90-60.7)))
+print(ARD)
 AR = (Wingspan ** 2) / WingArea
 XC = 0.25  # Location of center of mass in % of chord
 TC = 0.20  # Tip thickness in % of chord NACA 0020
@@ -32,7 +34,7 @@ F = FuselageLength / (0.8 * 0.2 * 0.8)
 
 Gamma = 1.4  # Ratio of specific heats for dry air
 R = 287  # J/kgK specific gas constant for dry air
-E = 0.7
+E = 0.85
 Oswald = 1.78 * (1 - 0.045 * (AR) ** 0.68) - 0.64
 A0 = 0.104
 A = A0 / ((1 + (57.3 * A0)) / (math.pi * E * AR))
