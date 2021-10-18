@@ -10,8 +10,8 @@ ChordRoot = 0.8  # m
 ChordTip = 0.16  # m
 TaperRatio = ChordTip / ChordRoot
 Wingspan = 2.5  # m
-WingArea = 1.04156  # m^2
-WetWingArea = .86716 # m^2, area of wing exposed to stream lines
+WingArea = 1.08236  # m^2
+SWetWing = .82636 # m^2, area of wing exposed to stream lines
 Sweep = math.radians(0) # degrees, converted to radians, only non 0 when transsonic +
 AverageChord = WingArea / Wingspan
 AR = (Wingspan ^ 2) / WingArea
@@ -19,15 +19,16 @@ print(AR)
 XC = 0.25  # Location of center of mass in % of chord
 TCRoot = .2 # Root thickness in % chord
 TCTip = 0.14  # Tip thickness in % of chord
-QWing = 1.25
+QWing = 1
 
 # Fuselage dimensions
 
 FuselageLength = 0.8  # m
-Height = ChordRoot * TC  # m
+Height = ChordRoot * TCRoot  # m
 QFuse = 1
-AFuse = (4(FuselageLength * (ChordRoot * TC)))  # m^2
-F = FuselageLength / ((4 / math.pi) * AFuse)**(1/2)
+AFuse = .8704  # m^2
+SWetFuse = .6144 # m^2
+F = FuselageLength / (.8*.2*.8)
 
 # variable setups
 
@@ -77,14 +78,9 @@ else:
 
 FFWing = (((1 + (.6/XC)) * TC) + (100 * (TC**4))) * (((1.34 * Mach)**.18) * (math.cos(Sweep))**.28)
 
-# Wetted Wing
-
-SWetWing = (1.977 + .52 * (TC)) * WetWingArea
-
 # Total Wing Drag
 
 CD0Wing = CFWing * FFWing * QWing * (SWetWing / WingArea)
-
 
 
 # Fuselage Drag
