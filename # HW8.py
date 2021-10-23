@@ -30,10 +30,22 @@ VROCMax = ((((ThrustASL / Weight) * (Weight / SArea)) / (3 * RhoASL * CD0)) * Z)
 
 print(VROCMax)
 
-Theta = 3.4
+ClimbRateMax = (
+    ((((Weight / SArea) * Z) / (3 * RhoASL * CD0)) ** 0.5)
+    * ((ThrustASL / Weight) ** (3 / 2))
+    * (1 - (Z / 6) - (3 / (2 * ((ThrustASL / Weight) ** 2) * ((LDMax) ** 2) * Z)))
+)
 
+print(ClimbRateMax)
 
-PowerReq = (math.sqrt(2)*Weight**(3/2))/(math.sqrt((.5*RhoASL*VROCMax**2))*())
+ThetaMaxClimbRate = math.degrees(math.asin(ClimbRateMax / VROCMax))
+print(ThetaMaxClimbRate)
+
+MaxClimbAngle = math.asin((ThrustASL / Weight) - math.sqrt(4 * CD0 * K))
+print(math.degrees(MaxClimbAngle))
+
+VMaxClimbAngle = math.sqrt((2/RhoASL)*((K/CD0)**.5)*(Weight/SArea)*math.cos(MaxClimbAngle))
+print(VMaxClimbAngle)
 
 
 """
@@ -45,7 +57,6 @@ ThrustAvail = (.5*RhoASL*VROCMax**2)*SArea*CD0+(K*(Weight**2)/((.5*RhoASL*VROCMa
 
 print(ThrustAvail)
 """
-
 
 
 """
