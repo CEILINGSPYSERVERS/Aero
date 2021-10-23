@@ -23,9 +23,9 @@ QWing = 1
 
 FuselageLength = 0.8  # m
 Height = ChordRoot * TC  # m
-QFuse = 1
-AFuse = 0.8704  # m^2
-SWetFuse = 0.6144  # m^2
+QWingFuse = 1
+AWingFuse = 0.8704  # m^2
+SWetWingFuse = 0.6144  # m^2
 F = FuselageLength / (0.8 * 0.2 * 0.8)
 
 # variable setups
@@ -34,17 +34,17 @@ Gamma = 1.4  # Ratio of specific heats for dry air
 R = 287  # J/kgK specific gas constant for dry air
 E = 0.85
 Oswald = 1.78 * (1 - 0.045 * (ARD) ** 0.68) - 0.64
-A0 = 0.0941
-Cd0 = 0.007221496
+A0 = 0.0955
+Cd0 = 0.00717
 A = A0 / (1 + ((57.3 * A0) / (math.pi * E * ARD)))
-Alpha = 18.2  # degrees
+Alpha = 17.8  # degrees
 AlphaL0 = 0  # degrees
 K = (math.pi * Oswald * ARD) ** (-1)
 
 # Altitude and speed variables
 
-Altitude = 2000  # m
-Velocity = 60  # m/s
+Altitude = int(input("Altitude: "))  # m
+Velocity = int(input("Velocity: "))  # m/s
 
 Atmosphere = isa.get_atmosphere()
 Temp, Pressure, Density, SpeedSound, DynamicViscosity = isa.calculate_at_h(
@@ -56,11 +56,11 @@ Mach = Velocity / SpeedSound
 # Reynolds number
 
 ReWing = (Density * Velocity * AverageChord) / DynamicViscosity
-ReFuse = (Density * Velocity * FuselageLength) / DynamicViscosity
+ReWingFuse = (Density * Velocity * FuselageLength) / DynamicViscosity
 
 # Weight
 SurfaceArea = 2.809  # m^2
-Mass = ((SurfaceArea * 0.001) * 1930) + 0.3 + 0.0158 + 0.5  # kg
+Mass = ((SurfaceArea * 0.001) * 1930) + (0.349 * 2) + 0.0158 + 1 # kg
 Weight = Mass * 9.81
 
 # Lift
@@ -92,6 +92,26 @@ CD0Wing = CFWing * FFWing * QWing * (SWetWing / WingArea)
 
 # Fuselage Drag
 
+# Skin Friction Coefficent WingFuse
+
+if ReWingFuse <= 100000:
+    CFWingFuse = 1.328 / (ReWing ** (1 / 2))
+else:
+    CFWingFuse = 0.455 / (
+        ((math.log10(ReWing)) ** 2.58) * (1 + 0.144 * (Mach ** 2)) ** 0.65
+    )
+
+# Form Factor Wing
+
+FFWingFuse = (((1 + (0.6 / XC)) * TC) + (100 * (TC ** 4))) * (
+    ((1.34 * Mach) ** 0.18) * (math.cos(Sweep)) ** 0.28
+)
+
+# Total Wing Drag
+
+CD0WingFuse = CFWingFuse * FFWingFuse * QWingFuse * (SWetWingFuse / WingArea)
+
+"""
 # Skin Friction Coefficent Fuselage
 
 if ReFuse <= 100000:
@@ -112,6 +132,9 @@ SWetFuse = 2 * (FuselageLength * ChordRoot * TC)
 # Total Fuselage Drag
 
 CD0Fuse = CFFuse * FFFuse * QFuse * (SWetFuse / WingArea)
+"""
+
+
 
 
 # Total Plane Drag
@@ -126,6 +149,9 @@ CD = CD0 + K * (CL ** 2)
 
 # Display output
 print(f"Altiutude {Altitude} meters")
+print(f"Velocity {Velocity} m/s")
+print(f"RE Wing {ReWing}")
+print(f"RE Fuselage {ReFuse}")
 print(f"Mach {Mach}")
 print(f"Mass {Mass} kg")
 print(f"Weight {Weight} N")
@@ -164,11 +190,12 @@ CLCDMax = math.sqrt(1 / (4 * K * CD0))
 # Plane thrust vars
 BCurrent = 7  # Ah
 BVoltage = 12  # V
-BEnergy = 3600*BCurrent * BVoltage  # Wh
+BEnergy = 3600 * BCurrent * BVoltage  # Wh
 EtaProp = 0.70
 EtaMotor = 0.80
 
-MaxRange = (((BEnergy * EtaProp * EtaMotor) / Weight) * CLCDMax)/100  # km
+MaxRange = (((BEnergy * EtaProp * EtaMotor) / Weight) * CLCDMax) / 100  # km
+
 MaxEndurane = (
     (BEnergy * EtaProp * EtaMotor * math.sqrt(Density * WingArea))
     / (math.sqrt(2) * Weight ** (3 / 2))
