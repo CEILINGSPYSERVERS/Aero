@@ -24,8 +24,9 @@ QWing = 1
 FuselageLength = 0.8  # m
 Height = ChordRoot * TC  # m
 QWingFuse = 1
-AWingFuse = 0.8704  # m^2
-SWetWingFuse = 0.6144  # m^2
+# AWingFuse = 0.8704  # m^2
+#SWetWingFuse = 0.6144  # m^2
+SWetWingFuse = .04 # m^2
 F = FuselageLength / (0.8 * 0.2 * 0.8)
 
 # variable setups
@@ -43,8 +44,8 @@ K = (math.pi * Oswald * ARD) ** (-1)
 
 # Altitude and speed variables
 
-Altitude = int(input("Altitude: "))  # m
-Velocity = int(input("Velocity: "))  # m/s
+Altitude = 2000 # int(input("Altitude: "))  # m
+Velocity = 20 # int(input("Velocity: "))  # m/s
 
 Atmosphere = isa.get_atmosphere()
 Temp, Pressure, Density, SpeedSound, DynamicViscosity = isa.calculate_at_h(
@@ -58,9 +59,11 @@ Mach = Velocity / SpeedSound
 ReWing = (Density * Velocity * AverageChord) / DynamicViscosity
 ReWingFuse = (Density * Velocity * FuselageLength) / DynamicViscosity
 
+NBats = int(input("#Batteries: "))
+
 # Weight
-SurfaceArea = 2.809  # m^2
-Mass = ((SurfaceArea * 0.001) * 1930) + (0.349 * 2) + 0.0158 + 1 # kg
+BodyArea = 2.809  # m^2
+Mass = ((BodyArea * 0.001) * 1930) + (0.349 * 2) + (0.300 * NBats) + 0.0158 + 0.5 + 2.5 # kg
 Weight = Mass * 9.81
 
 # Lift
@@ -101,11 +104,15 @@ else:
         ((math.log10(ReWing)) ** 2.58) * (1 + 0.144 * (Mach ** 2)) ** 0.65
     )
 
+"""
 # Form Factor Wing
 
 FFWingFuse = (((1 + (0.6 / XC)) * TC) + (100 * (TC ** 4))) * (
     ((1.34 * Mach) ** 0.18) * (math.cos(Sweep)) ** 0.28
 )
+"""
+
+FFWingFuse = Cd0
 
 # Total Wing Drag
 
@@ -135,11 +142,9 @@ CD0Fuse = CFFuse * FFFuse * QFuse * (SWetFuse / WingArea)
 """
 
 
-
-
 # Total Plane Drag
 
-CD0 = CD0Wing + CD0Fuse
+CD0 = CD0Wing + CD0WingFuse
 
 
 # Aircraft Drag
@@ -151,7 +156,7 @@ CD = CD0 + K * (CL ** 2)
 print(f"Altiutude {Altitude} meters")
 print(f"Velocity {Velocity} m/s")
 print(f"RE Wing {ReWing}")
-print(f"RE Fuselage {ReFuse}")
+print(f"RE Fuselage {ReWingFuse}")
 print(f"Mach {Mach}")
 print(f"Mass {Mass} kg")
 print(f"Weight {Weight} N")
@@ -190,16 +195,29 @@ CLCDMax = math.sqrt(1 / (4 * K * CD0))
 # Plane thrust vars
 BCurrent = 7  # Ah
 BVoltage = 12  # V
-BEnergy = 3600 * BCurrent * BVoltage  # Wh
+BEnergy = NBats * (BCurrent * BVoltage) * 3600  # J
 EtaProp = 0.70
 EtaMotor = 0.80
 
-MaxRange = (((BEnergy * EtaProp * EtaMotor) / Weight) * CLCDMax) / 100  # km
+MaxRange = (((BEnergy * EtaProp * EtaMotor) / Weight) * CLCDMax) / 1000  # km
 
 MaxEndurane = (
-    (BEnergy * EtaProp * EtaMotor * math.sqrt(Density * WingArea))
-    / (math.sqrt(2) * Weight ** (3 / 2))
-) * CL32CDMax  # hr
+    (
+        (BEnergy * EtaProp * EtaMotor * math.sqrt(Density * WingArea))
+        / (math.sqrt(2) * Weight ** (3 / 2))
+    )
+    * CL32CDMax
+) / 3600  # hr
 
 print(f"Max Range {MaxRange} km")  # THIS IS WRONG
 print(f"Max Endurance {MaxEndurane} hours")  # THIS IS WRONG
+
+print(CL32CDMax)
+#Velocity for max range and endurance
+
+VRangeMax = math.sqrt(((2*Weight)/(Density*WingArea))*(math.sqrt(K/(3*CD0))))
+
+VEnduranceMax = math.sqrt(((2*Weight)/(Density*WingArea))*(math.sqrt(K/CD0)))
+
+print(f"Velocity for maximum range: {VRangeMax} m/s")
+print(f"Velocity for maximum endurance: {VEnduranceMax} m/s")
