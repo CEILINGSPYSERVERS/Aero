@@ -25,8 +25,8 @@ FuselageLength = 0.8  # m
 Height = ChordRoot * TC  # m
 QWingFuse = 1
 # AWingFuse = 0.8704  # m^2
-#SWetWingFuse = 0.6144  # m^2
-SWetWingFuse = .535 # m^2
+# SWetWingFuse = 0.6144  # m^2
+SWetWingFuse = 0.535  # m^2
 F = FuselageLength / (0.8 * 0.2 * 0.8)
 
 # variable setups
@@ -44,8 +44,8 @@ K = (math.pi * Oswald * ARD) ** (-1)
 
 # Altitude and speed variables
 
-Altitude = 2000 # int(input("Altitude: "))  # m
-Velocity = 20 # int(input("Velocity: "))  # m/s
+Altitude = 2000  # int(input("Altitude: "))  # m
+Velocity = 20  # int(input("Velocity: "))  # m/s
 
 Atmosphere = isa.get_atmosphere()
 Temp, Pressure, Density, SpeedSound, DynamicViscosity = isa.calculate_at_h(
@@ -59,13 +59,17 @@ Mach = Velocity / SpeedSound
 ReWing = (Density * Velocity * AverageChord) / DynamicViscosity
 ReWingFuse = (Density * Velocity * FuselageLength) / DynamicViscosity
 
-print("----------------------------------------------------------------------------------------")
+print(
+    "----------------------------------------------------------------------------------------"
+)
 
 NBats = int(input("#Batteries: "))
 
 # Weight
 BodyArea = 2.809  # m^2
-Mass = ((BodyArea * 0.001) * 1930) + (0.349 * 2) + (0.300 * NBats) + 0.0158 + 0.5 + 2.5 # kg
+Mass = (
+    ((BodyArea * 0.001) * 1930) + (0.349 * 2) + (0.300 * NBats) + 0.0158 + 0.5 + 2.5
+)  # kg
 Weight = Mass * 9.81
 
 # Lift
@@ -214,11 +218,16 @@ MaxEndurane = (
 print(f"Max Range {MaxRange} km")  # THIS IS WRONG
 print(f"Max Endurance {MaxEndurane} hours")  # THIS IS WRONG
 
-#Velocity for max range and endurance
+# Velocity for max range and endurance
 
-VRangeMax = math.sqrt(((2*Weight)/(Density*WingArea))*(math.sqrt(K/(3*CD0))))
+VRangeMax = math.sqrt(
+    ((2 * Weight) / (Density * WingArea)) * (math.sqrt(K / (3 * CD0)))
+)
 
-VEnduranceMax = math.sqrt(((2*Weight)/(Density*WingArea))*(math.sqrt(K/CD0)))
+VEnduranceMax = math.sqrt(((2 * Weight) / (Density * WingArea)) * (math.sqrt(K / CD0)))
 
 print(f"Velocity for maximum range: {VRangeMax} m/s")
 print(f"Velocity for maximum endurance: {VEnduranceMax} m/s")
+
+VStall = math.sqrt(((2 * Weight) / (Density * WingArea)) * (1 / CLCDMax))
+print(VStall)
