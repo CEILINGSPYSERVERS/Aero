@@ -215,8 +215,8 @@ MaxEndurane = (
     * CL32CDMax
 ) / 3600  # hr
 
-print(f"Max Range {MaxRange} km")  # THIS IS WRONG
-print(f"Max Endurance {MaxEndurane} hours")  # THIS IS WRONG
+print(f"Max Range {MaxRange} km")
+print(f"Max Endurance {MaxEndurane} hours")
 
 # Velocity for max range and endurance
 
@@ -229,5 +229,5 @@ VEnduranceMax = math.sqrt(((2 * Weight) / (Density * WingArea)) * (math.sqrt(K /
 print(f"Velocity for maximum range: {VRangeMax} m/s")
 print(f"Velocity for maximum endurance: {VEnduranceMax} m/s")
 
-VStall = math.sqrt(((2 * Weight) / (Density * WingArea)) * (1 / CLCDMax))
-print(VStall)
+VStall = math.sqrt((2 * Weight) / (Density * WingArea * CLCDMax))
+print(VStall) # Id bet this is wrong
