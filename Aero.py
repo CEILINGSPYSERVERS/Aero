@@ -26,7 +26,7 @@ Height = ChordRoot * TC  # m
 QWingFuse = 1
 # AWingFuse = 0.8704  # m^2
 #SWetWingFuse = 0.6144  # m^2
-SWetWingFuse = .04 # m^2
+SWetWingFuse = .535 # m^2
 F = FuselageLength / (0.8 * 0.2 * 0.8)
 
 # variable setups
@@ -58,6 +58,8 @@ Mach = Velocity / SpeedSound
 
 ReWing = (Density * Velocity * AverageChord) / DynamicViscosity
 ReWingFuse = (Density * Velocity * FuselageLength) / DynamicViscosity
+
+print("----------------------------------------------------------------------------------------")
 
 NBats = int(input("#Batteries: "))
 
@@ -212,7 +214,6 @@ MaxEndurane = (
 print(f"Max Range {MaxRange} km")  # THIS IS WRONG
 print(f"Max Endurance {MaxEndurane} hours")  # THIS IS WRONG
 
-print(CL32CDMax)
 #Velocity for max range and endurance
 
 VRangeMax = math.sqrt(((2*Weight)/(Density*WingArea))*(math.sqrt(K/(3*CD0))))
