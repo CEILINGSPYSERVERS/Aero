@@ -1,5 +1,6 @@
 import os, math
 import isacalc as isa
+import matplotlib as mp
 
 os.system("cls" if os.name == "nt" else "clear")
 
@@ -45,7 +46,7 @@ K = (math.pi * Oswald * ARD) ** (-1)
 # Altitude and speed variables
 
 Altitude = 2000  # int(input("Altitude: "))  # m
-Velocity = 20  # int(input("Velocity: "))  # m/s
+Velocity = 30  # int(input("Velocity: "))  # m/s
 
 Atmosphere = isa.get_atmosphere()
 Temp, Pressure, Density, SpeedSound, DynamicViscosity = isa.calculate_at_h(
@@ -232,3 +233,5 @@ print(f"Velocity for maximum endurance: {VEnduranceMax} m/s")
 
 
 AeroPower = -EtaMotor*EtaProp
+SFLPowR = CD * Velocity
+print(SFLPowR)
