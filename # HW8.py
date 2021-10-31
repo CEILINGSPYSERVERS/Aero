@@ -26,6 +26,7 @@ LDMax = math.sqrt(1 / (4 * K * CD0))
 
 Z = 1 + math.sqrt(1 + (3 / ((LDMax ** 2) * ((ThrustASL / Weight) ** 2))))
 
+
 VROCMax = ((((ThrustASL / Weight) * (Weight / SArea)) / (3 * RhoASL * CD0)) * Z) ** 0.5
 
 print(VROCMax)
