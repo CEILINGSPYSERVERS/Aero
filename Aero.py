@@ -59,11 +59,9 @@ Mach = Velocity / SpeedSound
 ReWing = (Density * Velocity * AverageChord) / DynamicViscosity
 ReWingFuse = (Density * Velocity * FuselageLength) / DynamicViscosity
 
-print(
-    "----------------------------------------------------------------------------------------"
-)
+#print ("----------------------------------------------------------------------------------------")
 
-NBats = int(input("#Batteries: "))
+NBats = 8 # int(input("#Batteries: "))
 
 # Weight
 BodyArea = 2.809  # m^2
@@ -229,5 +227,8 @@ VEnduranceMax = math.sqrt(((2 * Weight) / (Density * WingArea)) * (math.sqrt(K /
 print(f"Velocity for maximum range: {VRangeMax} m/s")
 print(f"Velocity for maximum endurance: {VEnduranceMax} m/s")
 
-VStall = math.sqrt((2 * Weight) / (Density * WingArea * CLCDMax))
-print(VStall) # Id bet this is wrong
+#VStall = math.sqrt((2 * Weight) / (Density * WingArea * CLCDMax))
+#print(VStall) # Id bet this is wrong
+
+
+AeroPower = -EtaMotor*EtaProp
