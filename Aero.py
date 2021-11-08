@@ -74,7 +74,7 @@ Weight = Mass * 9.81
 # Lift
 
 CL = A * (Alpha - AlphaL0)
-
+print(f"CLMax: {CL}")
 
 # Wing drag
 
@@ -228,10 +228,41 @@ VEnduranceMax = math.sqrt(((2 * Weight) / (Density * WingArea)) * (math.sqrt(K /
 print(f"Velocity for maximum range: {VRangeMax} m/s")
 print(f"Velocity for maximum endurance: {VEnduranceMax} m/s")
 
-#VStall = math.sqrt((2 * Weight) / (Density * WingArea * CLCDMax))
-#print(VStall) # Id bet this is wrong
+VStall = math.sqrt((2 * Weight) / (Density * WingArea * CLCDMax))
+print(f"Stall Velocity: {VStall} m/s, this is wrong")
 
 
 AeroPower = -EtaMotor*EtaProp
 SFLPowR = CD * Velocity
-print(SFLPowR)
+#print(SFLPowR)
+
+#Aero and structural limits
+#Pull up manuver
+n = (CL * .5 * Density * (VEnduranceMax**2) * WingArea)/Weight
+#print(n)
+
+RPullupAero = (VEnduranceMax**2)/(9.81*(n-1))
+print(f"R Pull up Aero limit: {RPullupAero} m")
+
+WPullupRateAero = (9.81*(n-1))/VEnduranceMax
+print(f"Rate of Aero Pull up manuver: {WPullupRateAero} rad/s")
+
+RPullupStructural = (VEnduranceMax**2)/(9.81*(4-1))
+print(f"R Pull up Structural limit: {RPullupStructural} m")
+
+WPullupRateStructural = (9.81*(4-1))/VEnduranceMax
+print(f"Rate of Sructural Pull up manuver: {WPullupRateStructural} rad/s")
+
+print("-----------------------------------------------------")
+#Level flight
+RTurnAero = (VEnduranceMax**2)/(9.81*(math.sqrt((n**2)-1)))
+print(f"R Turn Aero limit: {RTurnAero} m")
+
+WTurnAero = (9.81*(math.sqrt((n**2)-1)))/VEnduranceMax
+print(f"Rate of Aero Turn: {WTurnAero} rad/s")
+
+RTurnStructural = (VEnduranceMax**2)/(9.81*(math.sqrt((4**2)-1)))
+print(f"R Turn Structural limit: {RTurnStructural} m")
+
+WTurnStructural = (9.81*(math.sqrt((4**2)-1)))/VEnduranceMax
+print(f"Rate of Structural Turn: {WTurnStructural} rad/s")
