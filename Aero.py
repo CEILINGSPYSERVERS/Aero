@@ -337,3 +337,6 @@ print(f"R Turn Structural limit: {RTurnStructural} m")
 
 WTurnStructural = (9.81*(math.sqrt((4**2)-1)))/VEnduranceMax
 print(f"Rate of Structural Turn: {WTurnStructural} rad/s")
+
+ManuverSpeed = math.sqrt(((2*4)/(Density*CL))*(Weight/WingArea))
+print(f"Manuvering velocity: {ManuverSpeed} m/s")
