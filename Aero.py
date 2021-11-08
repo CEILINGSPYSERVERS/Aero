@@ -1,6 +1,7 @@
 import os, math
 import isacalc as isa
-import matplotlib as mp
+import matplotlib.pyplot as pl
+import numpy as np
 
 os.system("cls" if os.name == "nt" else "clear")
 
@@ -232,9 +233,79 @@ VStall = math.sqrt((2 * Weight) / (Density * WingArea * CLCDMax))
 print(f"Stall Velocity: {VStall} m/s, this is wrong")
 
 
-AeroPower = -EtaMotor*EtaProp
+AeroPower = EtaMotor*EtaProp*(2*.32*12*3600)
+print(f"Aero Power: {AeroPower} J")
 SFLPowR = CD * Velocity
 #print(SFLPowR)
+print(f"Steady level Flight Power Required: {SFLPowR} J")
+
+
+# More Vars
+
+AltMax = 3000  # m
+RhoASL = 0.95  # kg/m^3
+TempASL = 294  # degree K
+Grav = 9.81  # m/s^2
+RConst = 287  # J/(kg*degree K)
+AConst = -6.5 * 10 ** -3
+
+# Rate Of Climb
+
+Z = 1 + math.sqrt(1 + (3 / ((CLCDMax ** 2) * ((AeroPower / Weight) ** 2))))
+
+
+VROCMax = ((((AeroPower / Weight) * (Weight / SWetWing)) / (3 * RhoASL * CD0)) * Z) ** 0.5
+
+ClimbRateMax = (
+    ((((Weight / SWetWing) * Z) / (3 * RhoASL * CD0)) ** 0.5)
+    * ((AeroPower / Weight) ** (3 / 2))
+    * (1 - (Z / 6) - (3 / (2 * ((AeroPower / Weight) ** 2) * ((CLCDMax) ** 2) * Z)))
+)
+
+print(f"ClimbRateMax: {ClimbRateMax}")
+print(f"VROCMax: {VROCMax}")
+
+"""
+ThetaMaxClimbRate = math.degrees(math.asin(ClimbRateMax / VROCMax))
+print(ThetaMaxClimbRate)
+
+MaxClimbAngle = math.asin((AeroPower / Weight) - math.sqrt(4 * CD0 * K))
+print(math.degrees(MaxClimbAngle))
+
+VMaxClimbAngle = math.sqrt((2/RhoASL)*((K/CD0)**.5)*(Weight/WingArea)*math.cos(MaxClimbAngle))
+print(VMaxClimbAngle)
+
+# Altitude dependent stuff
+
+ThrustReq = (.5*RhoASL*VROCMax**2)*WingArea*CD0+(K*(Weight**2)*math.cos(math.radians(ThetaMaxClimbRate)))/((.5*RhoASL*VROCMax**2)*WingArea)
+
+print(ThrustReq)
+
+ThrustAvail = (.5*RhoASL*VROCMax**2)*WingArea*CD0+(K*(Weight**2)/((.5*RhoASL*VROCMax**2)*WingArea))
+
+print(ThrustAvail)
+
+
+Alts = np.arange(0, AltMax + 100, 100)
+YAxis = Alts
+
+XAxis = []
+
+for Var1 in Alts:
+    TempEq = TempASL + AConst * (Var1 - 0)
+    RhoEq = RhoASL * (TempEq / TempASL) ** ((-Grav / (AConst * RConst)) - 1)
+    ThrustAtAlt = AeroPower * (RhoEq / RhoASL)
+    XAxis.append(ThrustAtAlt)
+
+
+fig, ax = pl.subplots()
+ax.plot(XAxis, YAxis)
+
+ax.set(xlabel="Thrust (kN)", ylabel="Altitude (m)", title="Turbo Jet Thrust vs Altitude")
+ax.grid()
+
+pl.show()
+"""
 
 #Aero and structural limits
 #Pull up manuver

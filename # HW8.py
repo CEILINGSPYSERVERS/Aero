@@ -2,10 +2,9 @@ import matplotlib.pyplot as pl
 import numpy as np
 import math
 
-# ThrustASL = 25.7  # kN
 ThrustASL = 25700  # N
 AltASL = 0  # m
-AltMax = 11000  # m
+AltMax = 3000  # m
 RhoASL = 0.95  # kg/m^3
 TempASL = 294  # degree K
 Grav = 9.81  # m/s^2
@@ -41,6 +40,9 @@ print(ClimbRateMax)
 
 ThetaMaxClimbRate = math.degrees(math.asin(ClimbRateMax / VROCMax))
 print(ThetaMaxClimbRate)
+print(f"ThetaMaxClimbRate: {ThetaMaxClimbRate}")
+print(f"ClimbRateMax: {ClimbRateMax}")
+print(f"VROCMax: {VROCMax}")
 
 MaxClimbAngle = math.asin((ThrustASL / Weight) - math.sqrt(4 * CD0 * K))
 print(math.degrees(MaxClimbAngle))
@@ -49,18 +51,17 @@ VMaxClimbAngle = math.sqrt((2/RhoASL)*((K/CD0)**.5)*(Weight/SArea)*math.cos(MaxC
 print(VMaxClimbAngle)
 
 
-"""
-ThrustReq = (.5*RhoASL*VROCMax**2)*SArea*CD0+(K*(Weight**2)*math.cos(math.radians(Theta)))/((.5*RhoASL*VROCMax**2)*SArea)
+ThrustReq = (.5*RhoASL*VROCMax**2)*SArea*CD0+(K*(Weight**2)*math.cos(math.radians(ThetaMaxClimbRate)))/((.5*RhoASL*VROCMax**2)*SArea)
 
 print(ThrustReq)
 
 ThrustAvail = (.5*RhoASL*VROCMax**2)*SArea*CD0+(K*(Weight**2)/((.5*RhoASL*VROCMax**2)*SArea))
 
 print(ThrustAvail)
-"""
 
 
-"""
+
+
 Alts = np.arange(0, AltMax + 100, 100)
 YAxis = Alts
 
@@ -81,4 +82,4 @@ ax.grid()
 
 pl.show()
 #fig.savefig("test.png")
-"""
+
