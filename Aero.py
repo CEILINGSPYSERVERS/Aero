@@ -215,23 +215,28 @@ MaxEndurane = (
     * CL32CDMax
 ) / 3600  # hr
 
+EUsePerS = BEnergy / MaxEndurane  # J/s
+
+print(f"Battery Energy {BEnergy} J")
 print(f"Max Range {MaxRange} km")
 print(f"Max Endurance {MaxEndurane} hours")
+print(f"Energy Consumption @ V Max Endurance {EUsePerS} J/s")
 
 # Velocity for max range and endurance
 
 VRangeMax = math.sqrt(
-    ((2 * Weight) / (Density * WingArea)) * (math.sqrt(K / (3 * CD0)))
+    ((2 * Weight) / (Density * WingArea)) * (math.sqrt(K / CD0))
 )
 
-VEnduranceMax = math.sqrt(((2 * Weight) / (Density * WingArea)) * (math.sqrt(K / CD0)))
+VEnduranceMax = math.sqrt(
+    ((2 * Weight) / (Density * WingArea)) * (math.sqrt(K / (3 * CD0)))
+)
 
 print(f"Velocity for maximum range: {VRangeMax} m/s")
 print(f"Velocity for maximum endurance: {VEnduranceMax} m/s")
 
 VStall = math.sqrt((2 * Weight) / (Density * WingArea * CL))
 print(f"Stall Velocity: {VStall} m/s")
-
 
 AeroPower = EtaMotor * EtaProp * (2 * 0.32 * 12 * 3600)
 print(f"Aero Power: {AeroPower} J")
