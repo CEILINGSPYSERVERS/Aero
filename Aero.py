@@ -68,7 +68,7 @@ NBats = 8  # int(input("#Batteries: "))
 # Weight
 BodyArea = 2.809  # m^2
 Mass = (
-    ((BodyArea * 0.001) * 1930) + (0.349 * 2) + (0.300 * NBats) + 0.0158 + 0.5 + 2.5
+    ((BodyArea * 0.001) * 1930) + (0.349 * 2) + (0.300 * NBats) + 0.0158 + 0.5# + 2.5
 )  # kg
 Weight = Mass * 9.81
 
@@ -215,7 +215,7 @@ MaxEndurane = (
     * CL32CDMax
 ) / 3600  # hr
 
-EUsePerS = BEnergy / MaxEndurane  # J/s
+EUsePerS = BEnergy / (MaxEndurane * 3600)  # J/s
 
 print(f"Battery Energy {BEnergy} J")
 print(f"Max Range {MaxRange} km")
