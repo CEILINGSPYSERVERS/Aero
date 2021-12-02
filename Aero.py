@@ -263,13 +263,12 @@ VROCMax = (
     (((AeroPower / Weight) * (Weight / SWetWing)) / (3 * RhoASL * CD0)) * Z
 ) ** 0.5
 
-ClimbRateMax = (
-    ((((Weight / SWetWing) * Z) / (3 * RhoASL * CD0)) ** 0.5)
-    * ((AeroPower / Weight) ** (3 / 2))
-    * (1 - (Z / 6) - (3 / (2 * ((AeroPower / Weight) ** 2) * ((CLCDMax) ** 2) * Z)))
-)
+VRcMax = (2/Density)*(math.sqrt(K/(3*CD0))*Weight/WingArea)
+print(VRcMax)
 
-print(f"ClimbRateMax: {ClimbRateMax}")
+ClimbRateMax = (AeroPower / Weight) - (math.sqrt(2*Weight))/((math.sqrt(Density * WingArea))*CL32CDMax)
+
+print(f"ClimbRateMax: {ClimbRateMax} m/s")
 print(f"VROCMax: {VROCMax}")
 
 """
